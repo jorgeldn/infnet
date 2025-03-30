@@ -1,101 +1,98 @@
-# infnet
+# Projeto da Disciplina de Engenharia de Machine Learning
 
 [![Powered by Kedro](https://img.shields.io/badge/powered_by-kedro-ffc900?logo=kedro)](https://kedro.org)
 
 ## Overview
 
-This is your new Kedro project with Kedro-Viz setup, which was generated using `kedro 0.19.11`.
+Este projeto foi desenvolvido utilizando o framework Kedro versão `kedro 0.19.11`.
 
-Take a look at the [Kedro documentation](https://docs.kedro.org) to get started.
+## Dependencias
 
-## Rules and guidelines
+Todas as dependencias estão listadas no `requirements.txt`.
 
-In order to get the best out of the template:
+Para instalação, executar:
 
-* Don't remove any lines from the `.gitignore` file we provide
-* Make sure your results can be reproduced by following a [data engineering convention](https://docs.kedro.org/en/stable/faq/faq.html#what-is-data-engineering-convention)
-* Don't commit data to your repository
-* Don't commit any credentials or your local configuration to your repository. Keep all your credentials and local configuration in `conf/local/`
+```
+pip install pip-tools
+```
 
-## How to install dependencies
-
-Declare any dependencies in `requirements.txt` for `pip` installation.
-
-To install them, run:
+```
+pip-compile requirements.in
+```
 
 ```
 pip install -r requirements.txt
 ```
+## Como as ferramentas Streamlit, MLFlow, PyCaret e Scikit-Learn auxiliam na construção dos pipelines?
 
-## How to run your Kedro pipeline
+### 1. **Rastreamento de Experimentos**
+   - **MLflow**: Permite registrar e acompanhar diferentes experimentos de modelagem, armazenando métricas, hiperparâmetros e artefatos de cada execução. Isso facilita a comparação entre abordagens de regressão e classificação.
+   - **PyCaret**: Automatiza a experimentação com diferentes modelos, armazenando métricas e permitindo rápida comparação entre técnicas.
 
-You can run your Kedro project with:
+### 2. **Funções de Treinamento**
+   - **Scikit-Learn**: Fornece bibliotecas para treinamento, validação e ajuste de modelos preditivos, incluindo algoritmos de regressão e classificação.
+   - **PyCaret**: Facilita a seleção automática dos melhores modelos, aplicando técnicas como AutoML e tunagem de hiperparâmetros sem necessidade de configuração manual.
 
-```
-kedro run
-```
+### 3. **Monitoramento da Saúde do Modelo**
+   - **MLflow**: Possui funcionalidades de model registry e tracking, permitindo monitorar a degradação do modelo ao longo do tempo.
+   - **Streamlit**: Pode ser utilizado para criar painéis interativos e visualizar métricas do modelo em tempo real.
 
-## How to test your Kedro project
+### 4. **Atualização de Modelo**
+   - **MLflow**: Possui um registry para gerenciar diferentes versões dos modelos, facilitando a atualização e rollback de versões anteriores.
+   - **PyCaret**: Implementa pipelines automatizados que incluem reentrenamento de modelos com novos dados.
 
-Have a look at the files `src/tests/test_run.py` and `src/tests/pipelines/data_science/test_pipeline.py` for instructions on how to write your tests. Run the tests as follows:
+### 5. **Provisionamento (Deployment)**
+   - **MLflow**: Oferece integração com APIs REST para servir modelos como microserviços.
+   - **Streamlit**: Permite construir interfaces interativas para testar previsões do modelo de forma simples e rápida.
 
-```
-pytest
-```
+---
 
-To configure the coverage threshold, look at the `.coveragerc` file.
+### **Impacto da Escolha de Treino e Teste no Modelo Final**
+A forma como os dados de treino e teste são divididos pode influenciar diretamente o desempenho e a capacidade de generalização do modelo. Algumas considerações importantes incluem:
 
-## Project dependencies
+1. **Representatividade dos Dados**  
+   - Se os dados de treino não forem representativos da distribuição real dos dados, o modelo pode não aprender padrões generalizáveis.
+   - Se o conjunto de teste for muito diferente do de treino, o modelo pode ter um desempenho artificialmente ruim.
 
-To see and update the dependency requirements for your project use `requirements.txt`. Install the project requirements with `pip install -r requirements.txt`.
+2. **Overfitting e Underfitting**  
+   - **Overfitting:** O modelo pode memorizar padrões específicos do conjunto de treino e ter um desempenho ruim em novos dados (teste).
+   - **Underfitting:** Se o conjunto de treino for muito pequeno ou não representativo, o modelo pode não aprender padrões relevantes.
 
-[Further information about project dependencies](https://docs.kedro.org/en/stable/kedro_project_setup/dependencies.html#project-specific-dependencies)
+3. **Estratificação e Balanceamento**  
+   - Se o conjunto de treino e teste não mantiver a mesma proporção das classes (no caso de classificação), o modelo pode aprender viéses indesejados.
 
-## How to work with Kedro and notebooks
+---
 
-> Note: Using `kedro jupyter` or `kedro ipython` to run your notebook provides these variables in scope: `catalog`, `context`, `pipelines` and `session`.
->
-> Jupyter, JupyterLab, and IPython are already included in the project requirements by default, so once you have run `pip install -r requirements.txt` you will not need to take any extra steps before you use them.
+### **Estratégias para Minimizar o Viés de Dados**
+1. **Divisão Estratificada**  
+   - Para problemas de classificação, a técnica **stratified split** garante que a distribuição da variável alvo seja semelhante nos conjuntos de treino e teste.  
+   - Isso evita que o modelo aprenda padrões enviesados por distribuições desbalanceadas.
 
-### Jupyter
-To use Jupyter notebooks in your Kedro project, you need to install Jupyter:
+   **Exemplo no Scikit-Learn:**  
+   ```python
+   from sklearn.model_selection import train_test_split
 
-```
-pip install jupyter
-```
+   train_df, test_df = train_test_split(df, test_size=0.2, stratify=df["shot_made_flag"], random_state=42)
+   ```
 
-After installing Jupyter, you can start a local notebook server:
+2. **Aumento de Dados (Data Augmentation)**  
+   - Quando há poucas amostras de certas classes, pode-se gerar novos dados sintéticos para equilibrar as classes.
+   - Técnicas como **SMOTE (Synthetic Minority Over-sampling Technique)** podem ser usadas para balancear classes desbalanceadas.
 
-```
-kedro jupyter notebook
-```
+3. **Cross-Validation (Validação Cruzada)**  
+   - Em vez de usar uma única divisão treino/teste, a validação cruzada (ex.: k-fold cross-validation) permite testar o modelo em diferentes divisões dos dados, reduzindo o risco de viés na amostragem.
 
-### JupyterLab
-To use JupyterLab, you need to install it:
+   **Exemplo de K-Fold Cross-Validation no Scikit-Learn:**  
+   ```python
+   from sklearn.model_selection import KFold, cross_val_score
 
-```
-pip install jupyterlab
-```
+   kf = KFold(n_splits=5, shuffle=True, random_state=42)
+   scores = cross_val_score(model, X, y, cv=kf, scoring="accuracy")
+   print(f"Média das acurácias: {scores.mean()}")
+   ```
 
-You can also start JupyterLab:
+4. **Remoção de Dados Redundantes e Limpeza**  
+   - Identificar e remover duplicatas ou dados inconsistentes pode evitar que o modelo aprenda padrões irrelevantes.
 
-```
-kedro jupyter lab
-```
-
-### IPython
-And if you want to run an IPython session:
-
-```
-kedro ipython
-```
-
-### How to ignore notebook output cells in `git`
-To automatically strip out all output cell contents before committing to `git`, you can use tools like [`nbstripout`](https://github.com/kynan/nbstripout). For example, you can add a hook in `.git/config` with `nbstripout --install`. This will run `nbstripout` before anything is committed to `git`.
-
-> *Note:* Your output cells will be retained locally.
-
-[Further information about using notebooks for experiments within Kedro projects](https://docs.kedro.org/en/develop/notebooks_and_ipython/kedro_and_notebooks.html).
-## Package your Kedro project
-
-[Further information about building project documentation and packaging your project](https://docs.kedro.org/en/stable/tutorial/package_a_project.html).
+5. **Testar com Dados de Produção**  
+   - Se possível, testar o modelo com dados reais que ele encontrará na produção para garantir que os resultados sejam confiáveis.

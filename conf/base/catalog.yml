@@ -6,3 +6,14 @@ dataset_kobe_prod:
   type: pandas.ParquetDataset
   filepath: data/01_raw/dataset_kobe_prod.parquet
 
+data_filtered:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/data_filtered.parquet
+
+base_train:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/base_train.parquet
+
+base_test:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/base_test.parquet

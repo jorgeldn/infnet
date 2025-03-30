@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/devtools/infnet/notebooks/mlruns/253479297475384414/0f8a574a8682477ea7601946c7779233/artifacts
+end_time: 1742586889640
+entry_point_name: ''
+experiment_id: '253479297475384414'
+lifecycle_stage: active
+run_id: 0f8a574a8682477ea7601946c7779233
+run_name: PreparacaoDados
+run_uuid: 0f8a574a8682477ea7601946c7779233
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1742586889620
+status: 3
+tags: []
+user_id: Jorge
