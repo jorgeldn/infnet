@@ -111,3 +111,83 @@ A forma como os dados de treino e teste são divididos pode influenciar diretame
 
 5. **Testar com Dados de Produção**  
    - Se possível, testar o modelo com dados reais que ele encontrará na produção para garantir que os resultados sejam confiáveis.
+
+## Questão 4
+
+Com base no diagrama gerado, que ilustra um projeto usando **Kedro**, podemos identificar diversos artefatos criados ao longo do pipeline de dados. 
+Abaixo está a lista dos principais **artefatos**, com uma descrição detalhada da composição de cada um:
+
+---
+
+### 1. **dataset_kobe** (Catálogo: `raw`)
+- **Tipo**: Fonte de dados bruta.
+- **Composição**:
+  - Arquivo CSV, Excel, JSON, banco de dados ou API contendo dados não tratados.
+  - Inclui todas as variáveis originais, ruídos e possíveis inconsistências.
+  - Cadastrado no `catalog.yml` com tipo `raw`.
+
+---
+
+### 2. **data_filtered**
+- **Tipo**: Dados pré-processados.
+- **Composição**:
+  - Resultado da limpeza e filtragem realizada pelo node `PreparacaoDados`.
+  - Pode incluir:
+    - Remoção de outliers ou nulos.
+    - Conversão de tipos de dados.
+    - Aplicação de filtros lógicos (ex: apenas jogadas feitas em partidas oficiais).
+  - Cadastrado no `catalog.yml` como um dataset intermediário.
+
+---
+
+### 3. **base_train / base_test** (Catálogo: `entrada`)
+- **Tipo**: Dados de treino e teste.
+- **Composição**:
+  - Conjunto de dados particionado a partir de `data_filtered`.
+  - Pode incluir engenharia de atributos, normalização, codificação categórica etc.
+  - Usado para alimentar o node de `Treinamento`.
+  - Armazenado separadamente em arquivos como `base_train.parquet` e `base_test.parquet`.
+
+---
+
+### 4. **Modelo Treinado** (registrado no MLflow)
+- **Tipo**: Modelo de machine learning.
+- **Composição**:
+  - Objeto serializado do modelo (ex: `sklearn`, `xgboost`, etc.).
+  - Metainformações como:
+    - Hiperparâmetros usados.
+    - Métricas de performance (ex: acurácia, F1-score).
+    - Artefatos complementares como scaler, encoder, etc.
+  - Registrado no **MLflow Model Registry** com versionamento.
+
+---
+
+### 5. **Registro no MLflow**
+- **Tipo**: Metadata tracking.
+- **Composição**:
+  - Logs de execução do experimento.
+  - Parâmetros de input (hiperparâmetros).
+  - Métricas de avaliação.
+  - Arquivos de saída como o modelo `.pkl`, gráficos, etc.
+  - Interface visual e API de consulta.
+
+---
+
+### 6. **Aplicação Streamlit**
+- **Tipo**: Interface web.
+- **Composição**:
+  - Código Python com lógica de front-end interativo.
+  - Elementos como:
+    - Campos de input do usuário.
+    - Lógica de requisição ao modelo via MLflow (ou diretamente).
+    - Exibição de outputs como previsão, gráficos, explicações.
+  - Conectada ao modelo treinado para inferência em tempo real.
+
+---
+
+### 7. **Nodes (Funções do pipeline)**
+Embora não sejam arquivos em si, os *nodes* são artefatos de código fundamentais:
+- **PreparacaoDados**:
+  - Função responsável por ingestão e limpeza dos dados brutos.
+- **Treinamento**:
+  - Função que recebe os dados tratados e executa o treinamento do modelo.
