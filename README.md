@@ -1,29 +1,44 @@
+<img src="docs\images\infnet-logo.png" width="200">
+
+
 # Projeto da Disciplina de Engenharia de Machine Learning
 
-[![Powered by Kedro](https://img.shields.io/badge/powered_by-kedro-ffc900?logo=kedro)](https://kedro.org)
+Link do projeto:
+[https://github.com/jorgeldn/infnet](https://github.com/jorgeldn/infnet)
 
 ## Overview
 
-Este projeto foi desenvolvido utilizando o framework Kedro versão `kedro 0.19.11`.
+Desenvolver um preditor de arremessos usando duas abordagens (regressão e classificação) para prever se o "Black Mamba" (apelido de Kobe) acertou ou errou a cesta.
+Na pasta `data/01_raw` estão disposiveis os arquivos: **dataset_kobe_dev.parquet** e **dataset_kobe_prod.parquet** alvos de estudo deste projeto.
 
-## Dependencias
+## Dependências
 
-Todas as dependencias estão listadas no `requirements.txt`.
+Para executar o projeto, foi criado um ambiente virtual exclusivo a partir do comando:
+
+```
+python -m venv venv-pos-ia
+```
+
+Foi gerado um arquivo `requirements.in` com as dependências do projeto.
+O arquivo foi compilado com o comando `pip-compile requirements.in` e gerou um arquivo `requirements.txt`.
 
 Para instalação, executar:
 
 ```
-pip install pip-tools
-```
-
-```
-pip-compile requirements.in
-```
-
-```
 pip install -r requirements.txt
 ```
-## Como as ferramentas Streamlit, MLFlow, PyCaret e Scikit-Learn auxiliam na construção dos pipelines?
+
+## Questão 1: Estrutura e solução do projeto?
+
+Este projeto foi desenvolvido utilizando o framework Kedro versão `kedro 0.19.11`.
+
+<img src="docs\images\folders-structure.png" width="200">
+
+## Questão 2: Diagrama de etapas do projeto
+
+<img src="docs\images\diagram.png">
+
+## Questão 3: Como as ferramentas Streamlit, MLFlow, PyCaret e Scikit-Learn auxiliam na construção dos pipelines?
 
 ### 1. **Rastreamento de Experimentos**
    - **MLflow**: Permite registrar e acompanhar diferentes experimentos de modelagem, armazenando métricas, hiperparâmetros e artefatos de cada execução. Isso facilita a comparação entre abordagens de regressão e classificação.
