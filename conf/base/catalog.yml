@@ -17,3 +17,21 @@ base_train:
 base_test:
   type: pandas.ParquetDataset
   filepath: data/02_intermediate/base_test.parquet
+
+best_model:
+  type: kedro_mlflow.io.models.MlflowModelTrackingDataset
+  flavor: mlflow.sklearn
+  save_args:
+    registered_model_name: kobe_best_model
+
+lr_model:
+  type: kedro_mlflow.io.models.MlflowModelTrackingDataset
+  flavor: mlflow.sklearn
+  save_args:
+    registered_model_name: kobe_lr_model
+
+dt_model:
+  type: kedro_mlflow.io.models.MlflowModelTrackingDataset
+  flavor: mlflow.sklearn
+  save_args:
+    registered_model_name: kobe_dt_model

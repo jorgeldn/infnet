@@ -1,16 +1,7 @@
-"""
-This is a boilerplate pipeline 'PreparacaoDados'
-generated using Kedro 0.19.11
-"""
-
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 import mlflow
-from pycaret.classification import ClassificationExperiment
-
-#mlflow.set_tracking_uri("http://localhost:5000")  # Ajuste conforme necessário
-#clsmlflow.set_experiment("Kobe_Shot_Prediction")
 
 def prepare_data(raw_data):
     columns_to_keep = ["lat", "lon", "minutes_remaining", "period", "playoffs", "shot_distance", "shot_made_flag"]
@@ -48,20 +39,3 @@ def split_bases(filtered_data):
         mlflow.log_metric("test_size", len(test_df))
 
     return train_df, test_df
-
-
-# def best_model_from_comparison(data, session_id):
-#     mlflow.set_tracking_uri("http://127.0.0.1:5000")
-#     mlflow.set_experiment("pd_black_mamba")
-#
-#     exp = ClassificationExperiment()
-#     exp.setup(data=data, target='shot_made_flag', session_id=session_id)
-#
-#     best_model = exp.compare_models()
-#
-#     tuned_model = exp.tune_model(best_model, n_iter=10, optimize='AUC')
-#
-#     # Log do modelo e dos resultados
-#     exp.log_model(tuned_model)
-#
-#     return tuned_model
