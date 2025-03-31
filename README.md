@@ -78,40 +78,6 @@ A forma como os dados de treino e teste são divididos pode influenciar diretame
 
 ---
 
-### **Estratégias para Minimizar o Viés de Dados**
-1. **Divisão Estratificada**  
-   - Para problemas de classificação, a técnica **stratified split** garante que a distribuição da variável alvo seja semelhante nos conjuntos de treino e teste.  
-   - Isso evita que o modelo aprenda padrões enviesados por distribuições desbalanceadas.
-
-   **Exemplo no Scikit-Learn:**  
-   ```python
-   from sklearn.model_selection import train_test_split
-
-   train_df, test_df = train_test_split(df, test_size=0.2, stratify=df["shot_made_flag"], random_state=42)
-   ```
-
-2. **Aumento de Dados (Data Augmentation)**  
-   - Quando há poucas amostras de certas classes, pode-se gerar novos dados sintéticos para equilibrar as classes.
-   - Técnicas como **SMOTE (Synthetic Minority Over-sampling Technique)** podem ser usadas para balancear classes desbalanceadas.
-
-3. **Cross-Validation (Validação Cruzada)**  
-   - Em vez de usar uma única divisão treino/teste, a validação cruzada (ex.: k-fold cross-validation) permite testar o modelo em diferentes divisões dos dados, reduzindo o risco de viés na amostragem.
-
-   **Exemplo de K-Fold Cross-Validation no Scikit-Learn:**  
-   ```python
-   from sklearn.model_selection import KFold, cross_val_score
-
-   kf = KFold(n_splits=5, shuffle=True, random_state=42)
-   scores = cross_val_score(model, X, y, cv=kf, scoring="accuracy")
-   print(f"Média das acurácias: {scores.mean()}")
-   ```
-
-4. **Remoção de Dados Redundantes e Limpeza**  
-   - Identificar e remover duplicatas ou dados inconsistentes pode evitar que o modelo aprenda padrões irrelevantes.
-
-5. **Testar com Dados de Produção**  
-   - Se possível, testar o modelo com dados reais que ele encontrará na produção para garantir que os resultados sejam confiáveis.
-
 ## Questão 4
 
 Com base no diagrama gerado, que ilustra um projeto usando **Kedro**, podemos identificar diversos artefatos criados ao longo do pipeline de dados. 
@@ -191,3 +157,50 @@ Embora não sejam arquivos em si, os *nodes* são artefatos de código fundament
   - Função responsável por ingestão e limpeza dos dados brutos.
 - **Treinamento**:
   - Função que recebe os dados tratados e executa o treinamento do modelo.
+
+---
+## Questão 5
+
+### **Implementação e Execução do Pipeline "PreparacaoDados"**
+Todo o pipeline foi integrado com MLFlow para registro e acompanhamento dos experimentos.
+<img src="docs\images\pipeline-run-preparacao-log.png">
+
+Ao executar o pipeline, as seguintes métricas foram geradas no MLflow:
+<img src="docs\images\mlflow-preparacao.png">
+
+E também os arquivos gerados:
+<img src="docs\images\pipeline-preparacao-artefatos.png">
+
+### **Estratégias para Minimizar o Viés de Dados**
+1. **Divisão Estratificada**  
+   - Para problemas de classificação, a técnica **stratified split** garante que a distribuição da variável alvo seja semelhante nos conjuntos de treino e teste.  
+   - Isso evita que o modelo aprenda padrões enviesados por distribuições desbalanceadas.
+
+   **Exemplo no Scikit-Learn:**  
+   ```python
+   from sklearn.model_selection import train_test_split
+
+   train_df, test_df = train_test_split(df, test_size=0.2, stratify=df["shot_made_flag"], random_state=42)
+   ```
+
+2. **Aumento de Dados (Data Augmentation)**  
+   - Quando há poucas amostras de certas classes, pode-se gerar novos dados sintéticos para equilibrar as classes.
+   - Técnicas como **SMOTE (Synthetic Minority Over-sampling Technique)** podem ser usadas para balancear classes desbalanceadas.
+
+3. **Cross-Validation (Validação Cruzada)**  
+   - Em vez de usar uma única divisão treino/teste, a validação cruzada (ex.: k-fold cross-validation) permite testar o modelo em diferentes divisões dos dados, reduzindo o risco de viés na amostragem.
+
+   **Exemplo de K-Fold Cross-Validation no Scikit-Learn:**  
+   ```python
+   from sklearn.model_selection import KFold, cross_val_score
+
+   kf = KFold(n_splits=5, shuffle=True, random_state=42)
+   scores = cross_val_score(model, X, y, cv=kf, scoring="accuracy")
+   print(f"Média das acurácias: {scores.mean()}")
+   ```
+
+4. **Remoção de Dados Redundantes e Limpeza**  
+   - Identificar e remover duplicatas ou dados inconsistentes pode evitar que o modelo aprenda padrões irrelevantes.
+
+5. **Testar com Dados de Produção**  
+   - Se possível, testar o modelo com dados reais que ele encontrará na produção para garantir que os resultados sejam confiáveis.
