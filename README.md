@@ -211,29 +211,42 @@ O pipeline foi deviamente registrado no MLflow:
 <img src="docs\images\mlflow-treinamento.png">
 
 Durante a execução do pipeline, o seguinte output no console foi gerado:
-<img src="docs\images\training-metrics.png">
-
-Com base nos resultados apresentados na imagem, vamos comparar os dois modelos:
-
-### 📊 **Resumo das Métricas (Médias dos Folds)**
-
-| Métrica     | Regressão Logística | Árvore de Decisão |
-|-------------|----------------------|--------------------|
-| **Accuracy** | 0.5781               | 0.5264             |
-| **AUC**      | 0.6085               | 0.5160             |
-| **Recall**   | 0.4921               | 0.5063             |
-| **Precision**| 0.5669               | 0.5003             |
-| **F1 Score** | 0.5267               | 0.5034             |
-| **Kappa**    | 0.1496               | 0.0256             |
-| **MCC**      | 0.1509               | 0.0259             |
 
 ---
 
-### ✅ **Modelo Recomendado: Regressão Logística**
+#### **Árvore de Decisão:**
+<img src="docs\images\training-metrics-dt.png">
 
-#### **Justificativa:**
+---
 
-1. **Desempenho Geral Superior**: A Regressão Logística supera a Árvore de Decisão em praticamente todas as métricas: Accuracy, AUC, Precision, F1, Kappa e MCC.
-2. **AUC Considerável**: A AUC de 0.6085 (vs. 0.5160) indica uma capacidade muito melhor de separação entre classes.
-3. **Estabilidade dos Folds**: O desvio padrão da regressão é semelhante ou até menor em algumas métricas, o que mostra consistência entre os folds.
-4. **Kappa e MCC significativamente mais altos**: Esses indicadores consideram o acerto por acaso e mostram que a Regressão Logística está entregando um modelo mais confiável.
+#### **Regeressão Logística:**
+<img src="docs\images\training-metrics-lr.png">
+
+---
+Com base nas métricas de validação cruzada (10 folds) apresentadas nas imagens dos dois modelos — **Regressão Logística** e **Árvore de Decisão** — o modelo mais adequado para finalização é:
+
+### ✅ **Modelo Escolhido: Regressão Logística**
+
+### 📊 **Comparativo das principais métricas (média dos folds)**
+
+| Métrica     | Regressão Logística | Árvore de Decisão |
+|-------------|----------------------|--------------------|
+| **Accuracy** | **0.5781**           | 0.5264             |
+| **AUC**      | **0.6085**           | 0.5160             |
+| **Recall**   | 0.4921               | **0.5530**         |
+| **Precision**| **0.5669**           | 0.5034             |
+| **F1 Score** | **0.5267**           | 0.5142             |
+| **Kappa**    | **0.1496**           | 0.0657             |
+| **MCC**      | **0.1509**           | 0.0662             |
+
+---
+
+### 🧠 **Justificativa da escolha**
+
+1. **Acurácia Geral Superior**: A regressão logística alcançou uma média de acurácia 5 pontos percentuais acima da árvore de decisão (57.8% vs. 52.6%).
+
+2. **Melhor Separação entre Classes (AUC)**: O AUC da regressão logística (0.6085) indica maior capacidade de distinguir as classes corretamente. O modelo de árvore tem AUC próximo de 0.5, o que sugere desempenho similar ao aleatório.
+
+3. **Métricas de Balanceamento (Kappa e MCC)**: Ambas são substancialmente mais altas na regressão logística, o que reforça que o modelo está aprendendo padrões úteis, e não apenas se ajustando ao desbalanceamento ou aleatoriedade.
+
+4. **Recall ligeiramente inferior, mas compensado**: Embora a árvore de decisão tenha maior *recall* (sensibilidade), ela perde em todas as outras métricas, o que torna o modelo menos robusto como um todo.

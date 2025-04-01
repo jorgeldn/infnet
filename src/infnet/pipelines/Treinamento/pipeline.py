@@ -10,9 +10,15 @@ from . import nodes
 def create_pipeline(**kwargs) -> Pipeline:
     return pipeline([
         node(
-            nodes.train_models,
+            nodes.train_logistic_model,
             inputs=["base_train", "base_test"],
-            outputs=None,
-            tags=['treinamento']
+            outputs="lr_model",
+            name="treinar_regressao_logistica",
+        ),
+        node(
+            nodes.train_decision_tree_model,
+            inputs=["base_train", "base_test"],
+            outputs="dt_model",
+            name="treinar_arvore_decisao",
         ),
     ])
