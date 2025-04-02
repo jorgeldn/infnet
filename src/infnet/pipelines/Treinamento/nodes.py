@@ -1,13 +1,15 @@
 import mlflow
-import mlflow.sklearn
+import mlflow.pyfunc
 from pycaret.classification import ClassificationExperiment
 from sklearn.metrics import log_loss, f1_score, accuracy_score
 from mlflow.models.signature import infer_signature
+import joblib
+import tempfile
+import os
+from infnet.sklearn_proba_wrapper import SklearnProbaWrapper
+
 
 def train_logistic_model(base_train, base_test):
-    """
-    Treina um modelo de Regressão Logística e registra métricas, assinatura e input_example no MLflow.
-    """
     X_test = base_test.drop(columns=["shot_made_flag"])
     y_test = base_test["shot_made_flag"]
 
@@ -20,31 +22,31 @@ def train_logistic_model(base_train, base_test):
         y_pred_prob = preds["prediction_score"]
         y_pred_label = preds["prediction_label"]
 
-        # Registro de métricas
         mlflow.log_param("Modelo", "Regressão Logística")
         mlflow.log_metric("Log Loss", log_loss(y_test, y_pred_prob))
         mlflow.log_metric("F1 Score", f1_score(y_test, y_pred_label))
         mlflow.log_metric("Accuracy", accuracy_score(y_test, y_pred_label))
 
-        # Assinatura e input_example
-        signature = infer_signature(X_test, logistic_model.predict_proba(X_test))
-        input_example = X_test.head(3)
+        # Salvar modelo local e registrar com wrapper
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            model_path = os.path.join(tmp_dir, "model.pkl")
+            joblib.dump(logistic_model, model_path)
 
-        # Registro do modelo com schema
-        mlflow.sklearn.log_model(
-            sk_model=logistic_model,
-            artifact_path="Modelo_Logistico",
-            signature=signature,
-            input_example=input_example,
-        )
+            signature = infer_signature(X_test, logistic_model.predict_proba(X_test))
+            input_example = X_test.head(3)
+
+            mlflow.pyfunc.log_model(
+                artifact_path="Modelo_Logistico",
+                python_model=SklearnProbaWrapper(),
+                artifacts={"model_path": model_path},
+                signature=signature,
+                input_example=input_example,
+            )
 
         return logistic_model
 
 
 def train_decision_tree_model(base_train, base_test):
-    """
-    Treina um modelo de Árvore de Decisão e registra métricas, assinatura e input_example no MLflow.
-    """
     X_test = base_test.drop(columns=["shot_made_flag"])
     y_test = base_test["shot_made_flag"]
 
@@ -57,22 +59,24 @@ def train_decision_tree_model(base_train, base_test):
         y_pred_prob = preds["prediction_score"]
         y_pred_label = preds["prediction_label"]
 
-        # Registro de métricas
         mlflow.log_param("Modelo", "Árvore de Decisão")
         mlflow.log_metric("Log Loss", log_loss(y_test, y_pred_prob))
         mlflow.log_metric("F1 Score", f1_score(y_test, y_pred_label))
         mlflow.log_metric("Accuracy", accuracy_score(y_test, y_pred_label))
 
-        # Assinatura e input_example
-        signature = infer_signature(X_test, decision_tree_model.predict_proba(X_test))
-        input_example = X_test.head(3)
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            model_path = os.path.join(tmp_dir, "model.pkl")
+            joblib.dump(decision_tree_model, model_path)
 
-        # Registro do modelo com schema
-        mlflow.sklearn.log_model(
-            sk_model=decision_tree_model,
-            artifact_path="Modelo_Arvore",
-            signature=signature,
-            input_example=input_example,
-        )
+            signature = infer_signature(X_test, decision_tree_model.predict_proba(X_test))
+            input_example = X_test.head(3)
+
+            mlflow.pyfunc.log_model(
+                artifact_path="Modelo_Arvore",
+                python_model=SklearnProbaWrapper(),
+                artifacts={"model_path": model_path},
+                signature=signature,
+                input_example=input_example,
+            )
 
         return decision_tree_model
