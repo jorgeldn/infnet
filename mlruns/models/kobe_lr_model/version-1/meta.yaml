@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1743615408435
+current_stage: None
+description: null
+last_updated_timestamp: 1743615408435
+name: kobe_lr_model
+run_id: 2eeea5ccb54b43c8952a21fcb5b4c524
+run_link: null
+source: file:///D:/devtools/infnet/mlruns/616214342273272034/2eeea5ccb54b43c8952a21fcb5b4c524/artifacts/model
+status: READY
+status_message: null
+storage_location: file:///D:/devtools/infnet/mlruns/616214342273272034/2eeea5ccb54b43c8952a21fcb5b4c524/artifacts/model
+user_id: null
+version: 1

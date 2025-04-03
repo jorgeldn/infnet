@@ -8,3 +8,4 @@ pycaret[models,mlops]
 scikit-optimize
 kedro-mlflow
 streamlit
+seaborn

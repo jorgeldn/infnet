@@ -35,3 +35,7 @@ dt_model:
   flavor: mlflow.sklearn
   save_args:
     registered_model_name: kobe_dt_model
+
+resultados_aplicacao:
+  type: kedro_datasets.pandas.ParquetDataset
+  filepath: data/07_model_output/resultados_aplicacao.parquet
