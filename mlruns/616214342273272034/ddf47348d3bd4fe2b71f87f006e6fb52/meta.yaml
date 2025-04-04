@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/devtools/infnet/mlruns/616214342273272034/ddf47348d3bd4fe2b71f87f006e6fb52/artifacts
+end_time: 1743615414593
+entry_point_name: ''
+experiment_id: '616214342273272034'
+lifecycle_stage: active
+run_id: ddf47348d3bd4fe2b71f87f006e6fb52
+run_name: Arvore_Decisao
+run_uuid: ddf47348d3bd4fe2b71f87f006e6fb52
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743615408493
+status: 3
+tags: []
+user_id: Jorge

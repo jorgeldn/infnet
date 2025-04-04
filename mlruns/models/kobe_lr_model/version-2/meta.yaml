@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1743615474407
+current_stage: None
+description: ''
+last_updated_timestamp: 1743615474407
+name: kobe_lr_model
+run_id: 6ce89c4460de4f0ba2442858c2abef40
+run_link: ''
+source: file:///D:/devtools/infnet/mlruns/616214342273272034/6ce89c4460de4f0ba2442858c2abef40/artifacts/Modelo_Logistico
+status: READY
+status_message: null
+storage_location: file:///D:/devtools/infnet/mlruns/616214342273272034/6ce89c4460de4f0ba2442858c2abef40/artifacts/Modelo_Logistico
+user_id: null
+version: 2

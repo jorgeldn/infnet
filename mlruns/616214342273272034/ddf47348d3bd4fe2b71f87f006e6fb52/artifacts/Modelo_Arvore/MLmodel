@@ -1,0 +1,38 @@
+artifact_path: Modelo_Arvore
+flavors:
+  python_function:
+    artifacts:
+      model_path:
+        path: artifacts\model.pkl
+        uri: C:\Users\Jorge\AppData\Local\Temp\tmpf5wcydh6\model.pkl
+    cloudpickle_version: 3.1.1
+    code: null
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.pyfunc.model
+    python_model: python_model.pkl
+    python_version: 3.11.9
+    streamable: false
+is_signature_from_type_hint: false
+mlflow_version: 2.21.2
+model_size_bytes: 547837
+model_uuid: 9d1c003fb4254d77a83b211818f4fa3f
+prompts: null
+run_id: ddf47348d3bd4fe2b71f87f006e6fb52
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "double", "name": "lat", "required": true}, {"type": "double",
+    "name": "lon", "required": true}, {"type": "double", "name": "minutes_remaining",
+    "required": true}, {"type": "double", "name": "period", "required": true}, {"type":
+    "double", "name": "playoffs", "required": true}, {"type": "double", "name": "shot_distance",
+    "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float64", "shape": [-1,
+    2]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-04-02 17:36:51.225636'

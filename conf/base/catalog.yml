@@ -6,3 +6,36 @@ dataset_kobe_prod:
   type: pandas.ParquetDataset
   filepath: data/01_raw/dataset_kobe_prod.parquet
 
+data_filtered:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/data_filtered.parquet
+
+base_train:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/base_train.parquet
+
+base_test:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/base_test.parquet
+
+best_model:
+  type: kedro_mlflow.io.models.MlflowModelTrackingDataset
+  flavor: mlflow.sklearn
+  save_args:
+    registered_model_name: kobe_best_model
+
+lr_model:
+  type: kedro_mlflow.io.models.MlflowModelTrackingDataset
+  flavor: mlflow.sklearn
+  save_args:
+    registered_model_name: kobe_lr_model
+
+dt_model:
+  type: kedro_mlflow.io.models.MlflowModelTrackingDataset
+  flavor: mlflow.sklearn
+  save_args:
+    registered_model_name: kobe_dt_model
+
+resultados_aplicacao:
+  type: kedro_datasets.pandas.ParquetDataset
+  filepath: data/07_model_output/resultados_aplicacao.parquet
