@@ -1,45 +1,104 @@
 <img src="docs\images\infnet-logo.png" width="200">
 
-
 # Projeto da Disciplina de Engenharia de Machine Learning
+## Aluno: Jorge Luiz do Nascimento Júnior
 
-Link do projeto:
+---
+
+Git do projeto:
 [https://github.com/jorgeldn/infnet](https://github.com/jorgeldn/infnet)
 
-## Overview
+## 📜 Overview
 
 Desenvolver um preditor de arremessos usando duas abordagens (regressão e classificação) para prever se o "Black Mamba" (apelido de Kobe) acertou ou errou a cesta.
 Na pasta `data/01_raw` estão disposiveis os arquivos: **dataset_kobe_dev.parquet** e **dataset_kobe_prod.parquet** alvos de estudo deste projeto.
 
-## Configuração do ambiente de desenvolvimento
+## 🌐 Configuração do ambiente de desenvolvimento
 
-Para executar o projeto, foi criado um ambiente virtual utilizando o **VENV** com o seguinte comando:
+Para desenvolver e executar o projeto de disciplina, foi instalado o `python 3.11` e criado um ambiente virtual utilizando o **VENV** com o seguinte comando:
 
-```
+```bash
 python -m venv venv-pos-ia
 ```
 
 Foi gerado um arquivo `requirements.in` com as dependências do projeto.
-O arquivo foi compilado com o comando `pip-compile requirements.in` e gerou um arquivo `requirements.txt`.
+O arquivo foi compilado com o comando:
 
-Para instalação, executar:
+```bash
+pip-compile requirements.in
+``` 
 
-```
+gerando o arquivo `requirements.txt`.
+
+Para instalação de todas as bibliotecas, executar:
+
+```bash
 pip install -r requirements.txt
 ```
 
-## Questão 1: Estrutura e solução do projeto?
+## 🎯Questão 1: Estrutura e solução do projeto?
 
+---
 Este projeto foi desenvolvido utilizando o framework Kedro versão `kedro 0.19.11`.
 
-<img src="docs\images\folders-structure.png" width="200">
+O projeto segue a seguinte estrutura:
+```
+📂 .  
+├── 📂 conf  
+│   ├── 📂 base  
+│   │   ├── 📄 catalog.yml  
+│   │   ├── 📄 parameters.yml 
+├── 📂 data  
+│   ├── 📂 01_raw  
+│   │   ├── 📄 dataset_kobe_dev.parquet  
+│   │   ├── 📄 dataset_kobe_prod.parquet  
+│   ├── 📂 02_intermediate  
+│   │   ├── 📄 base_test.parquet  
+│   │   ├── 📄 base_train.parquet  
+│   │   ├── 📄 data_filtered.parquet  
+│   ├── 📂 03_primary  
+│   ├── 📂 04_feature  
+│   ├── 📂 05_model_input  
+│   ├── 📂 06_models  
+│   ├── 📂 07_model_output  
+│   │   ├── 📄 resultados_aplicacao.parquet  
+│   ├── 📂 08_reporting  
+├── 📂 docs  
+│   ├── 📂 images
+├── 📂 mlruns  
+├── 📂 notebooks  
+├── 📂 src  
+│   ├── 📂 infnet  
+│   │   ├── 📂 pipelines  
+│   │   │   ├── 📂 Aplicacao  
+│   │   │   │   ├── 📄 __init__.py  
+│   │   │   │   ├── 📄 nodes.py  
+│   │   │   │   ├── 📄 pipeline.py  
+│   │   │   ├── 📂 PreparacaoDados  
+│   │   │   │   ├── 📄 __init__.py  
+│   │   │   │   ├── 📄 nodes.py  
+│   │   │   │   ├── 📄 pipeline.py  
+│   │   │   ├── 📂 Treinamento  
+│   │   │   │   ├── 📄 __init__.py  
+│   │   │   │   ├── 📄 nodes.py  
+│   │   │   │   ├── 📄 pipeline.py   
+│   │   ├── 📄 sklearn_proba_wrapper.py  
+├── 📂 streamlit  
+│   ├── 📄 app.py  
+├── 📂 tests   
+├── 📄 pyproject.toml  
+├── 📄 README.md  
+├── 📄 requirements.in  
+├── 📄 requirements.txt
+```
+## 🎯Questão 2: Diagrama de etapas do projeto
 
-## Questão 2: Diagrama de etapas do projeto
-
+---
 <img src="docs\images\diagram.png">
 
-## Questão 3: Como as ferramentas Streamlit, MLFlow, PyCaret e Scikit-Learn auxiliam na construção dos pipelines?
+## 🎯Questão 3: Como as ferramentas Streamlit, MLFlow, PyCaret e Scikit-Learn auxiliam na construção dos pipelines?
 
+---
 ### 1. **Rastreamento de Experimentos**
    - **MLflow**: Permite registrar e acompanhar diferentes experimentos de modelagem, armazenando métricas, hiperparâmetros e artefatos de cada execução. Isso facilita a comparação entre abordagens de regressão e classificação.
    - **PyCaret**: Automatiza a experimentação com diferentes modelos, armazenando métricas e permitindo rápida comparação entre técnicas.
@@ -60,9 +119,8 @@ Este projeto foi desenvolvido utilizando o framework Kedro versão `kedro 0.19.
    - **MLflow**: Oferece integração com APIs REST para servir modelos como microserviços.
    - **Streamlit**: Permite construir interfaces interativas para testar previsões do modelo de forma simples e rápida.
 
----
 
-### **Impacto da Escolha de Treino e Teste no Modelo Final**
+### 📌**Impacto da Escolha de Treino e Teste no Modelo Final**
 A forma como os dados de treino e teste são divididos pode influenciar diretamente o desempenho e a capacidade de generalização do modelo. Algumas considerações importantes incluem:
 
 1. **Representatividade dos Dados**  
@@ -76,16 +134,14 @@ A forma como os dados de treino e teste são divididos pode influenciar diretame
 3. **Estratificação e Balanceamento**  
    - Se o conjunto de treino e teste não mantiver a mesma proporção das classes (no caso de classificação), o modelo pode aprender viéses indesejados.
 
----
+## 🎯Questão 4
 
-## Questão 4
+---
 
 Com base no diagrama gerado, que ilustra um projeto usando **Kedro**, podemos identificar diversos artefatos criados ao longo do pipeline de dados. 
 Abaixo está a lista dos principais **artefatos**, com uma descrição detalhada da composição de cada um:
 
----
-
-### 1. **dataset_kobe** (Catálogo: `raw`)
+### 1. 📑 **dataset_kobe** (Catálogo: `raw`)
 - **Tipo**: Fonte de dados bruta.
 - **Composição**:
   - Arquivo Parquet.
@@ -122,13 +178,13 @@ Abaixo está a lista dos principais **artefatos**, com uma descrição detalhada
 | 23 | opponent          | object   | Nome do time adversário. |
 | 24 | shot_id           | int64    | Identificação única do arremesso. |
 
-#### Observações
+##### Observações
 - O dataset contém 24.271 registros.
 - A coluna `shot_made_flag` possui valores nulos, indicando arremessos cuja conversão não foi informada.
 
 ---
 
-### 2. **data_filtered** (Catálogo: `entrada`)
+### 2. 📑 **data_filtered** (Catálogo: `entrada`)
 - **Tipo**: Dados pré-processados.
 - **Composição**:
   - Resultado da limpeza e filtragem realizada pelo pipeline `PreparacaoDados` no node `prepare_data`.
@@ -137,7 +193,7 @@ Abaixo está a lista dos principais **artefatos**, com uma descrição detalhada
     - Conversão de tipos de dados.
   - Cadastrado no `catalog.yml` como um dataset intermediário.
 
-#### Somente as colunas foram selecionadas para o `data_filtered`
+##### Somente as colunas foram selecionadas para o `data_filtered`:
 
 | Coluna               | Tipo     | Descrição |
 |----------------------|----------|-----------|
@@ -148,18 +204,16 @@ Abaixo está a lista dos principais **artefatos**, com uma descrição detalhada
 | playoffs           | int64    | Indica se a partida foi nos playoffs (1) ou na temporada regular (0). |
 | shot_distance      | int64    | Distância do arremesso em pés. |
 
----
 
-### 3. **base_train / base_test** (Catálogo: `entrada`)
+### 3. 📑 **base_train / base_test** (Catálogo: `entrada`)
 - **Tipo**: Dados de treino e teste.
 - **Composição**:
   - Conjunto de dados particionado a partir de `data_filtered`.
   - Usado para alimentar o node de `Treinamento`.
   - Armazenado separadamente em arquivos como `base_train.parquet` e `base_test.parquet`.
 
----
 
-### 4. **Modelo Treinado** (registrado no MLflow)
+### 4. 🧮 **Modelo Treinado** (registrado no MLflow)
 - **Tipo**: Modelo de machine learning.
 - **Composição**:
   - Objeto serializado dos modelos `Logistic Regression` e `Decision Tree Classifier`.
@@ -169,9 +223,8 @@ Abaixo está a lista dos principais **artefatos**, com uma descrição detalhada
     - Artefatos complementares como scaler, encoder, etc.
   - Registrado no **MLflow Model Registry** com versionamento.
 
----
 
-### 5. **Registro no MLflow**
+### 5. 📈 **Registro no MLflow**
 - **Tipo**: Metadata tracking.
 - **Composição**:
   - Logs de execução do experimento.
@@ -180,9 +233,8 @@ Abaixo está a lista dos principais **artefatos**, com uma descrição detalhada
   - Arquivos de saída como o modelo `.pkl`, gráficos, etc.
   - Interface visual e API de consulta.
 
----
 
-### 6. **Aplicação Streamlit**
+### 6. 📟 **Aplicação Streamlit**
 - **Tipo**: Interface web.
 - **Composição**:
   - Código Python com lógica de front-end interativo.
@@ -192,24 +244,25 @@ Abaixo está a lista dos principais **artefatos**, com uma descrição detalhada
     - Exibição de outputs com probabilidades.
   - Conectada ao modelo treinado para inferência em tempo real.
 
----
 
-### 7. **Nodes (Funções do pipeline)**
+### 7. ⚙️ **Nodes (Funções do pipeline)**
 Embora não sejam arquivos em si, os *nodes* são artefatos de código fundamentais:
 - **PreparacaoDados**:
   - Função responsável por ingestão e limpeza dos dados brutos.
 - **Treinamento**:
   - Funções que recebem os dados tratados e executa o treinamento dos modelos.
 
+
+## 🎯Questão 5
+
 ---
-## Questão 5
 No prompt de comando, executado o seguinte comando:
-```
+```bash
 kedro run --pipeline=PreparacaoDados
 ```
 
-#### Sobre o dataset`data_filtered`
-Dimensão do dataset após limpeza:  20285 linhas e 7 colunas.
+ℹ️ Sobre o dataset `data_filtered` 
+> Dimensão do dataset após tratamento: **_20285 linhas e 7 colunas_**.
 
 ### **Implementação e Execução do Pipeline "PreparacaoDados"**
 Todo o pipeline foi integrado com MLFlow para registro e acompanhamento dos experimentos.
@@ -221,7 +274,7 @@ Ao executar o pipeline, as seguintes métricas foram geradas no MLflow:
 E também os arquivos gerados:
 <img src="docs\images\pipeline-preparacao-artefatos.png">
 
-### **Estratégias para Minimizar o Viés de Dados**
+### ✅ **Estratégias para Minimizar o Viés de Dados**
 1. **Divisão Estratificada**  
    - Para problemas de classificação, a técnica **stratified split** garante que a distribuição da variável alvo seja semelhante nos conjuntos de treino e teste.  
    - Isso evita que o modelo aprenda padrões enviesados por distribuições desbalanceadas.
@@ -255,10 +308,11 @@ E também os arquivos gerados:
 5. **Testar com Dados de Produção**  
    - Se possível, testar o modelo com dados reais que ele encontrará na produção para garantir que os resultados sejam confiáveis.
 
-## Questão 6
+## 🎯Questão 6
 
+---
 No prompt de comando, executado o seguinte comando:
-```
+```bash
 kedro run --pipeline=Treinamento
 ```
 
@@ -267,14 +321,12 @@ O pipeline foi deviamente registrado no MLflow:
 
 Durante a execução do pipeline, o seguinte output no console foi gerado:
 
----
-
-#### **Árvore de Decisão:**
+#### ✅ **Árvore de Decisão:**
 <img src="docs\images\training-metrics-dt.png">
 
 ---
 
-#### **Regeressão Logística:**
+#### ✅**Regeressão Logística:**
 <img src="docs\images\training-metrics-lr.png">
 
 ---
@@ -282,7 +334,7 @@ Com base nas métricas de validação cruzada (10 folds) apresentadas nas imagen
 
 ### ✅ **Modelo Escolhido: Regressão Logística**
 
-### 📊 **Comparativo das principais métricas (média dos folds)**
+##### **Comparativo das principais métricas (média dos folds)**
 
 | Métrica     | Regressão Logística | Árvore de Decisão |
 |-------------|----------------------|--------------------|
@@ -294,7 +346,6 @@ Com base nas métricas de validação cruzada (10 folds) apresentadas nas imagen
 | **Kappa**    | **0.1496**           | 0.0657             |
 | **MCC**      | **0.1509**           | 0.0662             |
 
----
 
 ### 🧠 **Justificativa da escolha**
 
@@ -308,7 +359,7 @@ Com base nas métricas de validação cruzada (10 folds) apresentadas nas imagen
 
 ---
 
-## Questão 7
+## 🎯Questão 7
 
 Após desenvolver e executar o pipeline, o seguinte erro foi gerado no console:
 <img src="docs\images\pipeline-aplicacao-erro.png">
@@ -328,10 +379,10 @@ Pelos indícios observados:
 | **Filtragem** | Pré-processada, com somente variáveis relevantes e sem nulos | Crua, sem filtragem, com valores faltantes no `shot_made_flag` |
 | **Tipos de dados** | Todos como `float64`, compatíveis com MLflow | Muitos como `int64`, `object`, e com `NaN`s |
 
-#### ✳️ Conclusão:
+#### 🧠 Conclusão:
 A base de produção **não foi tratada com o mesmo pré-processamento** que a base de treino, o que pode causar inconsistência nas previsões e quebra de performance.
 
-### ✅ Justificativa
+#### 🧠 Justificativa
 
 O modelo **não é diretamente aderente** à base de produção por três motivos principais:
 
@@ -339,13 +390,8 @@ O modelo **não é diretamente aderente** à base de produção por três motivo
 2. As variáveis relevantes estão misturadas com outras não usadas pelo modelo.
 3. A presença de `NaN` no target impedia a avaliação direta do desempenho.
 
-Excelente pergunta — isso toca no coração do **monitoramento de modelos em produção**, que é essencial para garantir performance, confiança e estabilidade ao longo do tempo.
 
-Vamos abordar os dois cenários que você mencionou:
-
----
-
-### 🧠 **Monitoramento da saúde do modelo**
+### ✅ **Monitoramento da saúde do modelo**
 
 A saúde de um modelo pode ser monitorada em duas frentes principais:
 
@@ -353,42 +399,42 @@ A saúde de um modelo pode ser monitorada em duas frentes principais:
 - **Dados**: os dados que entram no modelo continuam parecidos com os que ele foi treinado?
 
 
-### ✅ **1. Quando a variável resposta (target) está disponível em produção**
+### **1. Quando a variável resposta (target) está disponível em produção**
 
 Este é o **melhor cenário possível**, pois permite **medir o desempenho real** do modelo com dados atualizados.
 
-### 🎯 O que pode ser monitorado:
+#### 🎯 O que pode ser monitorado:
 - **Métricas de performance** como:
   - `log_loss`, `f1_score`, `accuracy`, `precision`, `recall`
 - **Atrasos entre previsão e rótulo real** (tempo de feedback)
 - **Drift de performance**: comparar as métricas com benchmarks anteriores
 
-### 🛠️ Ferramentas e abordagens:
+#### 🛠️ Ferramentas e abordagens:
 - Executar o **pipeline de aplicação** com o target incluído
 - Registrar as métricas no MLflow ou ferramentas como Evidently, Prometheus, etc.
 - Programar **dashboards** em Streamlit, Superset, Grafana ou Power BI
 
 ---
 
-### ⚠️ **2. Quando a variável resposta NÃO está disponível em produção**
+### **2. Quando a variável resposta NÃO está disponível em produção**
 
 Neste caso, você **não pode medir diretamente a performance**. Mas ainda é possível monitorar **a integridade e a aderência dos dados**.
 
-### 🔎 O que monitorar:
+#### 🔎 O que monitorar:
 
-#### a) **Data Drift (mudança nos dados de entrada)**
+##### a) **Data Drift (mudança nos dados de entrada)**
 - Mudança na distribuição das variáveis
 - Novos valores em variáveis categóricas
 - Mudança de média, mediana, desvio padrão
 
-#### b) **Feature Importance Drift**
+##### b) **Feature Importance Drift**
 - Ver se a importância das variáveis mudou muito com o tempo
 
-#### c) **Score Stability**
+##### c) **Score Stability**
 - A distribuição das probabilidades do modelo ao longo do tempo
 - Ex: média da probabilidade de classe 1
 
-### 🛠️ Ferramentas e abordagens:
+#### 🛠️ Ferramentas e abordagens:
 - Usar **Evidently** (Python) para:
   - Data Drift Report
   - Targetless Monitoring
@@ -396,7 +442,7 @@ Neste caso, você **não pode medir diretamente a performance**. Mas ainda é po
 - Logar a entrada do modelo com timestamp para auditoria futura
 
 
-### 📊 Exemplo prático de métricas monitoráveis sem `y`:
+#### 📊 Exemplo prático de métricas monitoráveis sem `y`:
 
 | Métrica                 | Com `y` | Sem `y` |
 |------------------------|---------|---------|
@@ -418,11 +464,9 @@ Neste caso, você **não pode medir diretamente a performance**. Mas ainda é po
 Ambos os cenários exigem ações automáticas como **logs, alertas e auditorias**, e ferramentas como **MLflow, Evidently, Prometheus e Streamlit** ajudam nesse processo.
 
 ---
-Excelente questão! Quando colocamos um modelo em produção, é fundamental definir **estratégias de retreinamento** para garantir que ele continue relevante, preciso e confiável com o passar do tempo.
+Quando colocamos um modelo em produção, é fundamental definir **estratégias de retreinamento** para garantir que ele continue relevante, preciso e confiável com o passar do tempo.
 
 Essas estratégias podem ser divididas em **duas abordagens principais**:
-
----
 
 ### 🔁 **1. Estratégia Reativa de Retreinamento**
 
@@ -447,7 +491,6 @@ Essas estratégias podem ser divididas em **duas abordagens principais**:
 - É **reativa**: o modelo já degradou quando o retreinamento começa
 - Pode gerar **impactos negativos** antes da correção (ex: perda de vendas, decisões ruins)
 
----
 
 ### 📅 **2. Estratégia Preditiva (ou Proativa) de Retreinamento**
 
@@ -486,15 +529,18 @@ Essas estratégias podem ser divididas em **duas abordagens principais**:
 
 ---
 
-### Streamlit App
+### 📟 Streamlit App
 
-Foi implementada uma **streamlit app** para visualização dos dados e monitoramento do modelo.
+Foi implementada uma aplicação Streamlit para visualização dos dados e monitoramento do modelo.
 O App possui 2 abas:
 
 - **Aba 1**: Previsão --> (Consome a API do MLflow)
 - **Aba 2**: Monitoramento da Operação
 
-> Para executar a app, basta rodar o arquivo `streamlit/app.py` com o comando `streamlit run app.py`.
+> Para executar a app, basta rodar o arquivo `streamlit/app.py` com o comando: 
+```bash
+streamlit run app.py
+```
 
 <img src="docs\images\streamlit-aba-prev.png">
 <img src="docs\images\streamlit-aba-mon-01.png">
