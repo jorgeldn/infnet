@@ -2,8 +2,6 @@
 
 # Projeto da Disciplina de Engenharia de Machine Learning
 
----
-## Aluno: Jorge Luiz do Nascimento Júnior
 Git do projeto:
 [https://github.com/jorgeldn/infnet](https://github.com/jorgeldn/infnet)
 
