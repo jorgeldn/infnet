@@ -35,7 +35,6 @@ pip install -r requirements.txt
 
 ## 🎯Questão 1: Estrutura e solução do projeto?
 
----
 Este projeto foi desenvolvido utilizando o framework Kedro versão `kedro 0.19.11`.
 
 O projeto segue a seguinte estrutura:
@@ -90,12 +89,10 @@ O projeto segue a seguinte estrutura:
 ```
 ## 🎯Questão 2: Diagrama de etapas do projeto
 
----
 <img src="docs\images\diagram.png">
 
 ## 🎯Questão 3: Como as ferramentas Streamlit, MLFlow, PyCaret e Scikit-Learn auxiliam na construção dos pipelines?
 
----
 ### 1. **Rastreamento de Experimentos**
    - **MLflow**: Permite registrar e acompanhar diferentes experimentos de modelagem, armazenando métricas, hiperparâmetros e artefatos de cada execução. Isso facilita a comparação entre abordagens de regressão e classificação.
    - **PyCaret**: Automatiza a experimentação com diferentes modelos, armazenando métricas e permitindo rápida comparação entre técnicas.
@@ -132,8 +129,6 @@ A forma como os dados de treino e teste são divididos pode influenciar diretame
    - Se o conjunto de treino e teste não mantiver a mesma proporção das classes (no caso de classificação), o modelo pode aprender viéses indesejados.
 
 ## 🎯Questão 4
-
----
 
 Com base no diagrama gerado, que ilustra um projeto usando **Kedro**, podemos identificar diversos artefatos criados ao longo do pipeline de dados. 
 Abaixo está a lista dos principais **artefatos**, com uma descrição detalhada da composição de cada um:
@@ -252,7 +247,6 @@ Embora não sejam arquivos em si, os *nodes* são artefatos de código fundament
 
 ## 🎯Questão 5
 
----
 No prompt de comando, executado o seguinte comando:
 ```bash
 kedro run --pipeline=PreparacaoDados
@@ -307,7 +301,6 @@ E também os arquivos gerados:
 
 ## 🎯Questão 6
 
----
 No prompt de comando, executado o seguinte comando:
 ```bash
 kedro run --pipeline=Treinamento
@@ -354,7 +347,6 @@ Com base nas métricas de validação cruzada (10 folds) apresentadas nas imagen
 
 4. **Recall ligeiramente inferior, mas compensado**: Embora a árvore de decisão tenha maior *recall* (sensibilidade), ela perde em todas as outras métricas, o que torna o modelo menos robusto como um todo.
 
----
 
 ## 🎯Questão 7
 
@@ -415,7 +407,7 @@ Este é o **melhor cenário possível**, pois permite **medir o desempenho real*
 
 ### **2. Quando a variável resposta NÃO está disponível em produção**
 
-Neste caso, você **não pode medir diretamente a performance**. Mas ainda é possível monitorar **a integridade e a aderência dos dados**.
+Neste caso, **não podemos medir diretamente a performance**. Mas ainda é possível monitorar **a integridade e a aderência dos dados**.
 
 #### 🔎 O que monitorar:
 
